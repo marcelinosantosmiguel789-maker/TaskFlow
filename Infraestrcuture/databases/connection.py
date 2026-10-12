@@ -5,7 +5,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
 from sqlalchemy.orm import sessionmaker, Session as SqlSession
 
-from infrastructure.utils.utils import Singleton
+from Infraestrcuture.utils.utils import Singleton
 
 
 class DatabaseConnection(metaclass=Singleton):
