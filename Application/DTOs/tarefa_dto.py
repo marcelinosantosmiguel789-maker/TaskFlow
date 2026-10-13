@@ -1,6 +1,4 @@
-
 from pydantic import BaseModel
-
 from Domain.Entities.tarefa import Tarefa
 
 
