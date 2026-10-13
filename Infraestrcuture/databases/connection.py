@@ -1,10 +1,12 @@
+
 from os import getenv
-from Infraestrcuture.databases.base import Base
+
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
 
+from Infraestrcuture.databases.base import Base
 from Infraestrcuture.utils.utils import Singleton
 
 load_dotenv()
@@ -26,14 +28,12 @@ class DatabaseConnection(metaclass=Singleton):
 
         self.engine = create_engine(postgresql_url)
 
-    
-def generate_database_schema(self):
-    from Infraestrcuture.databases.tarefa_model import TarefaModel
-    from Infraestrcuture.databases.projeto_model import ProjetoModel
-    from Infraestrcuture.databases.usuario_model import UsuarioModel
+    def generate_database_schema(self):
+        from Infraestrcuture.databases import tarefa_model
+        from Infraestrcuture.databases import projeto_model
+        from Infraestrcuture.databases import usuario_model
 
-    self.base.metadata.create_all(self.engine)
-
+        self.base.metadata.create_all(self.engine)
 
     def create_session(self) -> Session:
         return self.session_factory()
