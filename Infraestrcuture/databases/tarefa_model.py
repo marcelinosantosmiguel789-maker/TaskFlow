@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
 from Infraestrcuture.databases.base import Base
 
-class tarefa_model(DatabaseConnection.base):
+
+class TarefaModel(Base):
     __tablename__ = "tarefas"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
