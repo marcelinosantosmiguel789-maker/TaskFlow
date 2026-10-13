@@ -1,6 +1,5 @@
-
 from os import getenv
-
+from Infraestrcuture.databases.base import Base
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
@@ -12,7 +11,7 @@ load_dotenv()
 
 
 class DatabaseConnection(metaclass=Singleton):
-    base = declarative_base()
+    base = Base
 
     engine: Engine
     session_factory: sessionmaker
