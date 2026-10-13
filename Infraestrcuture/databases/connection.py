@@ -1,27 +1,37 @@
-from dotenv import load_dotenv
 
-load_dotenv()
 from os import getenv
 
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
-from sqlalchemy.orm import sessionmaker, Session as SqlSession
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 from Infraestrcuture.utils.utils import Singleton
 
+load_dotenv()
+
 
 class DatabaseConnection(metaclass=Singleton):
+    base = declarative_base()
+
     engine: Engine
-    session: SqlSession
-    base: DeclarativeMeta = declarative_base()
+    session_factory: sessionmaker
 
     def establish_connection(self):
         postgresql_url = getenv("POSTGRESQL_URL")
+
+        if not postgresql_url:
+            raise ValueError(
+                "A variável POSTGRESQL_URL não foi encontrada no .env"
+            )
+
         self.engine = create_engine(postgresql_url)
 
     def generate_database_schema(self):
         self.base.metadata.create_all(self.engine)
 
-    def create_session(self):
-        self.session = sessionmaker(bind=self.engine)
+    def create_session(self) -> Session:
+        return self.session_factory()
+
+    def configure_session_factory(self):
+        self.session_factory = sessionmaker(bind=self.engine)
