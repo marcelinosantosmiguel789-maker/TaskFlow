@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+
+from sqlalchemy import Column, Integer, String
+
 from Infraestrcuture.databases.base import Base
 
-class UsuarioModel(Base):
-    __tablename__ = "usuarios"
+
+class ProjetoModel(Base):
+    __tablename__ = "projetos"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(255), nullable=False)
-    email = Column(String(255), nullable=False, unique=True)
-    senha = Column(String(255), nullable=False)
-    ativo = Column(Boolean, default=True)
+    descricao = Column(String(255), nullable=True)
