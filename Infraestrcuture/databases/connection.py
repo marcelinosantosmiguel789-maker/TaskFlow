@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+
+load_dotenv()
 from os import getenv
 
 from sqlalchemy import create_engine
