@@ -16,4 +16,14 @@ class projetoRepository:
         self.session.add(Projeto_Model)
         self.session.commit()
         return Projeto_Model.id
-    
+
+def adicionar_projeto(self, projeto: Projeto):
+    projeto_model = ProjetoModel(
+        nome=projeto.nome,
+        descricao=projeto.descricao
+    )
+
+    self.session.add(projeto_model)
+    self.session.commit()
+
+    return projeto_model.id
