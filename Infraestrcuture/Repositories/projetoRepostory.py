@@ -1,5 +1,4 @@
 from Domain.Entities.projeto import Projeto
-from Infraestrcuture.databases import projeto_model
 from Infraestrcuture.databases.projeto_model import ProjetoModel
 
 

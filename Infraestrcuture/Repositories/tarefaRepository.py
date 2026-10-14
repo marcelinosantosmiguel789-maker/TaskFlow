@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from Infraestrcuture.databases.base import Base
 from Domain.Entities.tarefa import Tarefa
 from Infraestrcuture.databases.tarefa_model import TarefaModel
+
 
 class TarefaRepository:
     def __init__(self, session):

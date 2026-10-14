@@ -1,6 +1,14 @@
 class Tarefa:
-    def __init__(self, id: int, titulo: str, descricao: str, status: str):
+    def __init__(
+        self,
+        id: int | None,
+        titulo: str,
+        descricao: str,
+        concluida: bool,
+        projeto_id: int,
+    ):
         self.id = id
         self.titulo = titulo
         self.descricao = descricao
-        self.status = status
+        self.concluida = concluida
+        self.projeto_id = projeto_id

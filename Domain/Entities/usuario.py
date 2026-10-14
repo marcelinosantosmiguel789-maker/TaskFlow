@@ -1,10 +1,18 @@
 
 class Usuario:
-    def __init__(self, id: int, nome: str, email: str, senha: str):
+    def __init__(
+        self,
+        id: int | None,
+        nome: str,
+        email: str,
+        senha: str,
+        ativo: bool = True,
+    ):
         self.id = id
         self.nome = nome
         self.email = email
         self.senha = senha
+        self.ativo = ativo
 
     def validar_senha(self, senha: str) -> bool:
         return self.senha == senha

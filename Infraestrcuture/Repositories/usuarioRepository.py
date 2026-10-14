@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from Domain.Entities.usuario import Usuario
-from Infraestrcuture.databases.base import Base
 from Infraestrcuture.databases.usuario_model import UsuarioModel
+
 
 class UsuarioRepository:
     def __init__(self, session):

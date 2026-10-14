@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from Domain.Entities.usuario import Usuario
+from sqlalchemy import Boolean, Column, Integer, String
+
 from Infraestrcuture.databases.base import Base
+
 
 class UsuarioModel(Base):
     __tablename__ = "usuarios"

@@ -14,5 +14,5 @@ def mapear_tarefa_para_dto(tarefa: Tarefa) -> TarefaDTO:
         id=tarefa.id,
         titulo=tarefa.titulo,
         descricao=tarefa.descricao,
-        concluida=(tarefa.status == "concluida")
+        concluida=tarefa.concluida
     )
