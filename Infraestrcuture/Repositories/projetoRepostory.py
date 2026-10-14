@@ -14,5 +14,12 @@ class projetoRepository:
 
         self.session.add(projeto_model)
         self.session.commit()
+    def listar_projetos(self):
+        projetos_model = self.session.query(ProjetoModel).all()
+        return [Projeto(
+            id=projeto.id,
+            nome=projeto.nome,
+            descricao=projeto.descricao
+        ) for projeto in projetos_model]
 
         return projeto_model.id
