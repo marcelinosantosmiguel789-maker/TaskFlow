@@ -1,8 +1,9 @@
 from Domain.Entities.tarefa import Tarefa
+from Domain.Interfaces.ITarefaRepository import ITarefaRepository
 from Infraestrcuture.databases.tarefa_model import TarefaModel
 
 
-class TarefaRepository:
+class TarefaRepository(ITarefaRepository):
     def __init__(self, session):
         self.session = session
 

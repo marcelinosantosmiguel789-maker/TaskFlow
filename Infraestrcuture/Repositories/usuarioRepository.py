@@ -1,8 +1,9 @@
 from Domain.Entities.usuario import Usuario
+from Domain.Interfaces.IUsuarioRepository import IUsuarioRepository
 from Infraestrcuture.databases.usuario_model import UsuarioModel
 
 
-class UsuarioRepository:
+class UsuarioRepository(IUsuarioRepository):
     def __init__(self, session):
         self.session = session
 

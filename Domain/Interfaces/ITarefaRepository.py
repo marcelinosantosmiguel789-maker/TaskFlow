@@ -1,18 +1,11 @@
 from abc import ABC, abstractmethod
 
+
 class ITarefaRepository(ABC):
     @abstractmethod
-    def create(self, tarefa):
+    def adicionar_tarefa(self, tarefa):
         pass
 
     @abstractmethod
-    def read(self, id):
-        pass
-
-    @abstractmethod
-    def update(self, tarefa):
-        pass
-
-    @abstractmethod
-    def delete(self, id):
+    def obter_tarefas_por_projeto(self, projeto_id: int):
         pass

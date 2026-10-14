@@ -1,18 +1,15 @@
 from abc import ABC, abstractmethod
 
+
 class IProjetoRepository(ABC):
     @abstractmethod
-    def create(self, projeto):
+    def adicionar_projeto(self, projeto):
         pass
 
     @abstractmethod
-    def read(self, id):
+    def obter_projeto_por_id(self, projeto_id: int):
         pass
 
     @abstractmethod
-    def update(self, projeto):
-        pass
-
-    @abstractmethod
-    def delete(self, id):
+    def listar_projetos(self):
         pass

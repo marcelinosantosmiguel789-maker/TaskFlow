@@ -1,8 +1,8 @@
 from Domain.Entities.usuario import Usuario
-from Infraestrcuture.Repositories.usuarioRepository import UsuarioRepository
+from Domain.Interfaces.IUsuarioRepository import IUsuarioRepository
 
 class ObterUsuarioPorEmail:
-    def __init__(self, usuario_repository: UsuarioRepository):
+    def __init__(self, usuario_repository: IUsuarioRepository):
         self.usuario_repository = usuario_repository
 
     def obter_usuario_por_email(self, email: str) -> Usuario | None:

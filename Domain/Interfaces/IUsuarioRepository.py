@@ -1,18 +1,11 @@
 from abc import ABC, abstractmethod
 
-class ITarefaRepository(ABC):
+
+class IUsuarioRepository(ABC):
     @abstractmethod
-    def create(self, tarefa):
+    def adicionar_usuario(self, usuario):
         pass
 
     @abstractmethod
-    def read(self, id):
-        pass
-
-    @abstractmethod
-    def update(self, tarefa):
-        pass
-
-    @abstractmethod
-    def delete(self, id):
+    def obter_usuario_por_email(self, email: str):
         pass

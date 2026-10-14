@@ -4,8 +4,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from Application.DTOs.tarefa_dto import mapear_tarefa_para_dto
+from Application.UseCases.Projeto.BuscarProjeto import BuscarProjeto
+from Application.UseCases.Projeto.CriarProjeto import criarProjeto
+from Application.UseCases.Usuario.CriarUsuario import CriarUsuario
 from Domain.Entities.tarefa import Tarefa
 from Domain.Entities.usuario import Usuario
+from Domain.Services.password_hasher import hash_password
+from Infraestrcuture.Repositories.projetoRepostory import projetoRepository
 from Infraestrcuture.Repositories.tarefaRepository import TarefaRepository
 from Infraestrcuture.Repositories.usuarioRepository import UsuarioRepository
 from Infraestrcuture.databases.base import Base
@@ -43,13 +48,38 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(projeto.id, tarefas[0].projeto_id)
         self.assertTrue(mapear_tarefa_para_dto(tarefas[0]).concluida)
 
+    def test_projeto_create_and_lookup_use_repository_contract(self):
+        repository = projetoRepository(self.session)
+        criar_projeto = criarProjeto(repository)
+
+        projeto_id = criar_projeto.criar("Projeto", "Descricao")
+        projeto = BuscarProjeto(repository).buscar_por_id(projeto_id)
+
+        self.assertIsNotNone(projeto)
+        self.assertEqual(projeto_id, projeto.id)
+        self.assertEqual("Projeto", projeto.nome)
+        self.assertIsNone(BuscarProjeto(repository).buscar_por_id(-1))
+
+    def test_criar_usuario_persists_a_hash_that_can_be_verified(self):
+        class CapturingRepository:
+            def adicionar_usuario(self, usuario):
+                self.usuario = usuario
+                return 1
+
+        repository = CapturingRepository()
+        CriarUsuario(repository).criar_usuario("Nome", "nome@example.com", "senha")
+
+        self.assertNotEqual("senha", repository.usuario.senha)
+        self.assertTrue(repository.usuario.validar_senha("senha"))
+        self.assertFalse(repository.usuario.validar_senha("incorreta"))
+
     def test_usuario_round_trips_ativo(self):
         repository = UsuarioRepository(self.session)
         usuario = Usuario(
             id=None,
             nome="Nome",
             email="nome@example.com",
-            senha="senha",
+            senha=hash_password("senha"),
             ativo=False,
         )
 
@@ -59,6 +89,7 @@ class RepositoryTests(unittest.TestCase):
         self.assertIsNotNone(usuario_recuperado)
         self.assertFalse(usuario_recuperado.ativo)
         self.assertEqual(usuario.email, usuario_recuperado.email)
+        self.assertTrue(usuario_recuperado.validar_senha("senha"))
 
 
 if __name__ == "__main__":

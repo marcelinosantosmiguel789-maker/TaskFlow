@@ -1,8 +1,7 @@
-from Domain.Entities.tarefa import Tarefa
-from Infraestrcuture.databases.tarefa_model import TarefaModel
+from Domain.Interfaces.ITarefaRepository import ITarefaRepository
 
 class ObterTarefa:
-    def __init__(self, tarefa_repository):
+    def __init__(self, tarefa_repository: ITarefaRepository):
         self.tarefa_repository = tarefa_repository
 
     def obter_por_projeto(self, projeto_id: int):

@@ -1,4 +1,7 @@
 
+from Domain.Services.password_hasher import verify_password
+
+
 class Usuario:
     def __init__(
         self,
@@ -15,7 +18,7 @@ class Usuario:
         self.ativo = ativo
 
     def validar_senha(self, senha: str) -> bool:
-        return self.senha == senha
+        return verify_password(senha, self.senha)
 
     def validar_email(self, email: str) -> bool:
         return self.email == email
