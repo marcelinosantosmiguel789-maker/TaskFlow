@@ -91,6 +91,19 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(usuario.email, usuario_recuperado.email)
         self.assertTrue(usuario_recuperado.validar_senha("senha"))
 
+    def listar_projeto(self):
+        repository = projetoRepository(self.session)
+        criar_projeto = criarProjeto(repository)
+
+        criar_projeto.criar("Projeto 1", "Descricao 1")
+        criar_projeto.criar("Projeto 2", "Descricao 2")
+
+        projetos = repository.listar_projetos()
+
+        self.assertEqual(len(projetos), 2)
+        self.assertEqual(projetos[0].nome, "Projeto 1")
+        self.assertEqual(projetos[1].nome, "Projeto 2")
+
 
 if __name__ == "__main__":
     unittest.main()
