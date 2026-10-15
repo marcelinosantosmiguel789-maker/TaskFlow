@@ -136,6 +136,21 @@ class RepositoryTests(unittest.TestCase):
         tarefas = caso_de_uso.obter_por_projeto(999)
 
         self.assertEqual(tarefas, [])
+    def test_listar_projeto(self):
+        class FakeProjetoRepository:
+            def listar_projetos(self):
+                return [
+                    Projeto(
+                        id=1,
+                        nome="Projeto 1",
+                        descricao="Descricao do Projeto 1"
+                    ),
+                    Projeto(
+                        id=2,
+                        nome="Projeto 2",
+                        descricao="Descricao do Projeto 2"
+                    )
+                ]
 
 if __name__ == "__main__":
     unittest.main()
