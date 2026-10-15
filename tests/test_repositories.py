@@ -6,7 +6,9 @@ from sqlalchemy.orm import sessionmaker
 from Application.DTOs.tarefa_dto import mapear_tarefa_para_dto
 from Application.UseCases.Projeto.BuscarProjeto import BuscarProjeto
 from Application.UseCases.Projeto.CriarProjeto import criarProjeto
+from Application.UseCases.Tarefa.ObterTarefa import ObterTarefa
 from Application.UseCases.Usuario.CriarUsuario import CriarUsuario
+from Domain.Entities.projeto import Projeto
 from Domain.Entities.tarefa import Tarefa
 from Domain.Entities.usuario import Usuario
 from Domain.Services.password_hasher import hash_password
@@ -31,7 +33,9 @@ class RepositoryTests(unittest.TestCase):
         projeto = ProjetoModel(nome="Projeto", descricao="Descricao")
         self.session.add(projeto)
         self.session.commit()
+
         repository = TarefaRepository(self.session)
+
         tarefa = Tarefa(
             id=None,
             titulo="Tarefa",
@@ -67,7 +71,12 @@ class RepositoryTests(unittest.TestCase):
                 return 1
 
         repository = CapturingRepository()
-        CriarUsuario(repository).criar_usuario("Nome", "nome@example.com", "senha")
+
+        CriarUsuario(repository).criar_usuario(
+            "Nome",
+            "nome@example.com",
+            "senha",
+        )
 
         self.assertNotEqual("senha", repository.usuario.senha)
         self.assertTrue(repository.usuario.validar_senha("senha"))
@@ -75,6 +84,7 @@ class RepositoryTests(unittest.TestCase):
 
     def test_usuario_round_trips_ativo(self):
         repository = UsuarioRepository(self.session)
+
         usuario = Usuario(
             id=None,
             nome="Nome",
@@ -84,26 +94,48 @@ class RepositoryTests(unittest.TestCase):
         )
 
         repository.adicionar_usuario(usuario)
-        usuario_recuperado = repository.obter_usuario_por_email(usuario.email)
+        usuario_recuperado = repository.obter_usuario_por_email(
+            usuario.email
+        )
 
         self.assertIsNotNone(usuario_recuperado)
         self.assertFalse(usuario_recuperado.ativo)
         self.assertEqual(usuario.email, usuario_recuperado.email)
         self.assertTrue(usuario_recuperado.validar_senha("senha"))
 
-    def listar_projeto(self):
-        repository = projetoRepository(self.session)
-        criar_projeto = criarProjeto(repository)
+    def test_obter_tarefas_por_projeto(self):
+        class FakeTarefaRepository:
+            def obter_tarefas_por_projeto(self, projeto_id: int):
+                if projeto_id == 1:
+                    return [
+                        Tarefa(
+                            id=1,
+                            titulo="Estudar Python",
+                            descricao="Estudar Clean Architecture",
+                            concluida=False,
+                            projeto_id=1,
+                        )
+                    ]
+                return []
 
-        criar_projeto.criar("Projeto 1", "Descricao 1")
-        criar_projeto.criar("Projeto 2", "Descricao 2")
+        caso_de_uso = ObterTarefa(FakeTarefaRepository())
 
-        projetos = repository.listar_projetos()
+        tarefas = caso_de_uso.obter_por_projeto(1)
 
-        self.assertEqual(len(projetos), 2)
-        self.assertEqual(projetos[0].nome, "Projeto 1")
-        self.assertEqual(projetos[1].nome, "Projeto 2")
+        self.assertEqual(len(tarefas), 1)
+        self.assertEqual(tarefas[0].titulo, "Estudar Python")
+        self.assertEqual(tarefas[0].projeto_id, 1)
 
+    def test_obter_tarefas_por_projeto_sem_resultados(self):
+        class FakeTarefaRepository:
+            def obter_tarefas_por_projeto(self, projeto_id: int):
+                return []
+
+        caso_de_uso = ObterTarefa(FakeTarefaRepository())
+
+        tarefas = caso_de_uso.obter_por_projeto(999)
+
+        self.assertEqual(tarefas, [])
 
 if __name__ == "__main__":
     unittest.main()
