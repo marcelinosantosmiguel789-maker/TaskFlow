@@ -151,6 +151,7 @@ class RepositoryTests(unittest.TestCase):
                         descricao="Descricao do Projeto 2"
                     )
                 ]
+    
 
 if __name__ == "__main__":
     unittest.main()
