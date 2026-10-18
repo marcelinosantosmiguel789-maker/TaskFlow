@@ -11,4 +11,8 @@ class TarefaModel(Base):
     titulo = Column(String(255), nullable=False)
     descricao = Column(String(255), nullable=True)
     concluida = Column(Boolean, default=False)
-    projeto_id = Column(Integer, ForeignKey("projetos.id"), nullable=False)
+    projeto_id = Column(
+        Integer,
+        ForeignKey("projetos.id", ondelete="RESTRICT"),
+        nullable=False,
+    )

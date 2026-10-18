@@ -3,7 +3,7 @@ class Tarefa:
         self,
         id: int | None,
         titulo: str,
-        descricao: str,
+        descricao: str | None,
         concluida: bool,
         projeto_id: int,
     ):

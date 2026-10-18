@@ -13,3 +13,11 @@ class IProjetoRepository(ABC):
     @abstractmethod
     def listar_projetos(self):
         pass
+
+    @abstractmethod
+    def atualizar_projeto(self, projeto_id: int, dados: dict):
+        pass
+
+    @abstractmethod
+    def excluir_projeto(self, projeto_id: int):
+        pass
