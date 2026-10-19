@@ -32,6 +32,25 @@ tabelas ausentes. A documentação interativa fica em
 [http://localhost:8000/docs](http://localhost:8000/docs); o esquema OpenAPI está
 em [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json).
 
+## Dashboard web
+
+O dashboard React/TypeScript fica em `frontend/` e consome os endpoints existentes
+de projetos e tarefas. Inicie a API conforme as instruções acima e, em outro
+terminal, execute:
+
+```sh
+cd frontend
+pnpm install
+cp .env.example .env.local
+pnpm dev
+```
+
+O Vite encaminha `/api` para `http://localhost:8000` por padrão, sem exigir CORS
+no desenvolvimento local. Para mudar o endereço, ajuste `TASKFLOW_API_TARGET`
+em `frontend/.env.local`; `VITE_API_BASE_URL` pode apontar diretamente para uma
+URL-base permitida por CORS. Gere os arquivos estáticos com `cd frontend && pnpm
+build`; a saída fica em `frontend/dist/`.
+
 ## Execução com Docker Compose
 
 Copie `.env.example` para `.env`, defina uma senha local e execute:
