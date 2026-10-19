@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from typing import Generator
 
 from fastapi import Depends, FastAPI, HTTPException, Path, Query, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
@@ -90,6 +91,12 @@ def create_app(database: DatabaseConnection | None = None) -> FastAPI:
         description="API de gerenciamento de projetos, tarefas e usuários.",
         version="1.0.0",
         lifespan=lifespan,
+    )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["https://taskflow-ews9keby.manus.space"],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     @app.exception_handler(RecursoNaoEncontradoError)

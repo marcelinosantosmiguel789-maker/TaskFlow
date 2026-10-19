@@ -24,6 +24,26 @@ class TestApi:
         assert "/tarefas/{tarefa_id}" in openapi["paths"]
         assert "/usuarios" in openapi["paths"]
 
+    def test_cors_allows_dashboard_and_denies_other_origins(self):
+        dashboard_origin = "https://taskflow-ews9keby.manus.space"
+        preflight = self.client.options(
+            "/projetos",
+            headers={
+                "Origin": dashboard_origin,
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "content-type",
+            },
+        )
+        assert preflight.status_code == 200
+        assert preflight.headers["access-control-allow-origin"] == dashboard_origin
+
+        response = self.client.get(
+            "/projetos",
+            headers={"Origin": "https://another-site.example"},
+        )
+        assert response.status_code == 200
+        assert "access-control-allow-origin" not in response.headers
+
     def test_project_and_task_lifecycle_and_relations(self):
         project_response = self.client.post(
             "/projetos",
