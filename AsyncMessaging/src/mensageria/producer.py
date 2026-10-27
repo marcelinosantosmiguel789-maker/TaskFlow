@@ -1,4 +1,4 @@
-import pika
+import pika 
 
 conexao = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 canal = conexao.channel()
@@ -13,4 +13,7 @@ canal.basic_publish(
         delivery_mode=2
     )
 )
-print("Mensagem enviada com sucesso!")
+
+print("Mensagem enviada!")
+
+conexao.close()
