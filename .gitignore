@@ -1,6 +1,9 @@
 
 # Variáveis de ambiente e senhas
 .env
+.env.local
+node_modules/
+frontend/dist/
 
 # Ambiente virtual Python
 .venv/
